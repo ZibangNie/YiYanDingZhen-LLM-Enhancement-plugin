@@ -1,0 +1,20 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "一言鼎臻",
+  "name_for_model": "yiyan_dingzhen",
+  "description_for_human": "使用本地物理资料增强文心一言的专业问答和文档总结能力。",
+  "description_for_model": "根据用户提出的物理问题检索本地资料并回答，也可以总结用户提供的远程文档。",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "PLUGIN_HOST/.well-known/openapi.yaml"
+  },
+  "logo_url": "PLUGIN_HOST/logo.png",
+  "contact_email": "15210441165@163.com",
+  "legal_info_url": "https://github.com/ZibangNie/YiYanDingZhen-LLM-Enhancement-plugin/blob/main/LICENSE",
+  "examples": {
+    "url": "PLUGIN_HOST/.well-known/example.yaml"
+  }
+}

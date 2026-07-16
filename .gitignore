@@ -1,0 +1,55 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+dist/
+build/
+*.egg-info/
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+
+# Runtime logs and temporary files
+*.log
+*.tmp
+*.temp
+file.pdf
+
+# Local models, indexes, and generated artifacts
+artifacts/models/**
+artifacts/indexes/**
+artifacts/downloads/**
+*.pkl
+*.pickle
+*.annoy
+*.pt
+*.pth
+*.safetensors
+
+# Raw or generated corpora
+data/raw/
+data/processed/
+*.caj
+*.baiduyun.uploading.cfg
+merged.pdf
+merged_with_trans.zip
+allPDFContent.pkl
+embedding.pkl

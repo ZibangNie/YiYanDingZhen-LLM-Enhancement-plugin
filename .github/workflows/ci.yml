@@ -1,0 +1,84 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - "refactor/**"
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version:
+          - "3.10"
+          - "3.11"
+    env:
+      PIP_DISABLE_PIP_VERSION_CHECK: "1"
+      PYTHONDONTWRITEBYTECODE: "1"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Install
+        run: python -m pip install -e ".[dev]"
+
+      - name: Dependency consistency
+        run: python -m pip check
+
+      - name: Lint
+        run: ruff check .
+
+      - name: Format
+        run: ruff format --check .
+
+      - name: Type check
+        run: mypy src/yiyan_dingzhen
+
+      - name: Test
+        run: pytest --cov=yiyan_dingzhen --cov-report=term-missing --cov-fail-under=75
+
+      - name: Build package
+        run: python -m build
+
+  dependency-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Upgrade audited build tooling
+        run: python -m pip install --upgrade "setuptools>=83,<84" "wheel>=0.47,<0.48"
+
+      - name: Install all runtime extras
+        run: python -m pip install -e ".[rag,server,tools,security]"
+
+      - name: Audit known vulnerabilities
+        run: python -m pip_audit --skip-editable
+
+      - name: Static security scan
+        run: bandit -q -r src scripts
