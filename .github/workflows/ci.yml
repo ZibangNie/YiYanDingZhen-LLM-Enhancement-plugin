@@ -71,6 +71,9 @@ jobs:
           python-version: "3.11"
           cache: pip
 
+      - name: Upgrade audited build tooling
+        run: python -m pip install --upgrade "setuptools>=83,<84" "wheel>=0.47,<0.48"
+
       - name: Install all runtime extras
         run: python -m pip install -e ".[rag,server,tools,security]"
 
