@@ -1,0 +1,118 @@
+openapi: 3.0.3
+info:
+  title: 一言鼎臻
+  description: 使用本地物理资料增强专业问答，并总结用户提供的远程文档。
+  version: "0.2.0"
+servers:
+  - url: PLUGIN_HOST
+paths:
+  /set_Query:
+    post:
+      operationId: setQuery
+      summary: 回答问题
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QueryRequest"
+      responses:
+        "200":
+          description: 回答成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnswerResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "503":
+          $ref: "#/components/responses/Unavailable"
+  /set_text:
+    post:
+      operationId: settext
+      summary: 下载并总结远程文档
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DocumentRequest"
+      responses:
+        "200":
+          description: 总结成功
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnswerResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "503":
+          $ref: "#/components/responses/Unavailable"
+components:
+  schemas:
+    QueryRequest:
+      type: object
+      required:
+        - query_content
+      properties:
+        query_content:
+          type: string
+          minLength: 1
+          description: 需要回答的问题
+        session_id:
+          type: string
+          description: 可选会话标识；复用它可以保留短期检索记忆
+    DocumentRequest:
+      type: object
+      required:
+        - url
+      properties:
+        url:
+          type: string
+          format: uri
+          description: 公网 HTTPS 文档地址
+        session_id:
+          type: string
+    AnswerResponse:
+      type: object
+      required:
+        - result
+        - prompt
+        - session_id
+      properties:
+        result:
+          oneOf:
+            - type: string
+            - type: object
+              additionalProperties: true
+          description: 模型回答及兼容上下文字段
+        prompt:
+          type: string
+        session_id:
+          type: string
+        source_url:
+          type: string
+          format: uri
+    Error:
+      type: object
+      required:
+        - error
+        - code
+      properties:
+        error:
+          type: string
+        code:
+          type: string
+  responses:
+    BadRequest:
+      description: 请求内容无效
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+    Unavailable:
+      description: 模型、凭据或本地索引尚未准备
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"

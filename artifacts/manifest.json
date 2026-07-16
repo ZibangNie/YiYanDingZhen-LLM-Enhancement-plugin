@@ -1,0 +1,36 @@
+{
+  "format_version": 1,
+  "runtime": {
+    "default_index": "indexes/2018",
+    "embedding_model": "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
+    "dimension": 768,
+    "metric": "dot",
+    "normalize_embeddings": true
+  },
+  "artifacts": {
+    "indexes/2018/index.annoy": {
+      "sha256": "F28E7B66ECBB147D2756F6AC9E794B8A15BAC677124AC8CFF940D1F1F4C9DE66",
+      "bytes": 645392,
+      "tracked": false,
+      "description": "历史默认 2018 Annoy dot 索引"
+    },
+    "indexes/2018/documents.json": {
+      "sha256": "6582E15458DCBE472DB3510491EF152B5B6975C32EC499A7A37DE9D175A75CE8",
+      "bytes": 24462,
+      "tracked": false,
+      "description": "由可信 index.pkl 迁移得到的安全文档映射"
+    },
+    "legacy/embedding.pkl": {
+      "sha256": "EC0DA9C7316E228838A4EA2B3AC88041A727B299385D64FA322D68FDB2502E39",
+      "bytes": 1121370859,
+      "tracked": false,
+      "description": "仅用于确认历史模型，不允许在新运行时加载"
+    },
+    "legacy/index.pkl": {
+      "sha256": "08BFBAFA2AEE8E26850CDB2AC5A5EC8AE09DB6CF2D3AB4F61A6DB0B20E057916",
+      "bytes": 25461,
+      "tracked": false,
+      "description": "只允许作为可信本地迁移输入"
+    }
+  }
+}

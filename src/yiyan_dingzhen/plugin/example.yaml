@@ -1,0 +1,20 @@
+version: 0.2.0
+examples:
+  - context:
+      - role: user
+        content: 什么是牛顿第二定律？
+      - role: bot
+        plugin:
+          operationId: setQuery
+          thoughts: 这是一个需要结合物理资料回答的问题。
+          requestArguments:
+            query_content: 什么是牛顿第二定律？
+  - context:
+      - role: user
+        content: 请使用一言鼎臻总结这个 PDF。
+      - role: bot
+        plugin:
+          operationId: settext
+          thoughts: 需要下载并总结用户提供的远程文档。
+          requestArguments:
+            url: https://example.com/document.pdf
