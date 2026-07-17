@@ -71,11 +71,15 @@ jobs:
           python-version: "3.11"
           cache: pip
 
-      - name: Upgrade audited build tooling
-        run: python -m pip install --upgrade "setuptools>=83,<84" "wheel>=0.47,<0.48"
+      - name: Install audited environment
+        run: >-
+          python -m pip install
+          -e ".[rag,server,tools,security]"
+          "setuptools>=83,<84"
+          "wheel>=0.47,<0.48"
 
-      - name: Install all runtime extras
-        run: python -m pip install -e ".[rag,server,tools,security]"
+      - name: Dependency consistency
+        run: python -m pip check
 
       - name: Audit known vulnerabilities
         run: python -m pip_audit --skip-editable
