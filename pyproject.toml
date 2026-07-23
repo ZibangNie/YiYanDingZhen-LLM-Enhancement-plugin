@@ -44,7 +44,7 @@ rag = [
 ]
 tools = [
   "pandas==2.3.3",
-  "tqdm==4.68.4",
+  "tqdm==4.69.0",
   "PyMuPDF==1.28.0",
 ]
 server = [
